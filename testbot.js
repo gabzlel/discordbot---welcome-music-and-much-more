@@ -7,28 +7,17 @@ client.on('ready' , () => {
 });
 
 client.on('message', msg => {
-  console.log(msg)
-  const channel = msg.guild.channels.find('name', 'general');
-  let modRole = msg.guild.roles.find("name", "Owner");
-  if (!msg.member.roles.has(modRole.id))
   if (msg.author.username === 'kickbot') return
-  if (msg.content === `${prefix}help`) {
-    msg.reply("I have sent you the commands in DMs.")
-    msg.author.send("testing this");
-  }
-  if (msg.author.username === 'kickbot') return
-  //if (msg.content.includes('http')) {
-  if (/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(msg.content)) {
+  let urlchannel = msg.guild.channels.find('name', 'url');
+  if (msg.channel.name != "url" &&  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(msg.content)) {
     msg.delete()
-    msg.reply("No links in general, please refer to #url channel")
+    msg.reply("No links outside #url channel, please refer to #url")
   }
-  if (msg.attachments.array().length > 0) {
+  let imgchannel = msg.guild.channels.find('name', "images");
+  if (msg.author.username === 'kickbot') return
+  if (msg.channel.name != "images" && (msg.attachments.array().length > 0)) {
     msg.delete()
     msg.reply("No images here, please post in #images channel")
-  }
-  else {
-
-    if (msg.channel.id === '442789555884785674')
   }
 });
 client.on('guildMemberAdd', (member) => {
@@ -61,6 +50,11 @@ client.on('message', msg => {
   }
 }
 });
-
+client.on('message', messageme => {
+  if (messageme.isMentioned("378212639471304725")) {
+    messageme.delete()
+    messageme.author.send("Do not mention the owner")
+  }
+  });
 
 client.login('NDIxMjgzMTk4MjI0NDMzMTgy.DbtGyw.-Y_5hg3JlHMhf91CiYHjhEjGi_0');
